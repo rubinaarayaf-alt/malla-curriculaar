@@ -1,1 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Malla Curricular Interactiva</title>
+  <link rel="stylesheet" href="estilos.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="logo"><path d="M12 2l7 4v12l-7 4-7-4V6l7-4zm0 2.3L7 6.3v7.4l5 2.9 5-2.9V6.3l-5-2z"></path></svg>
+      <h1>Malla Curricular – Pedagogía en Química y Cs. Naturales</h1>
+    </div>
+    <div class="actions">
+      <button id="btnLegend" class="btn ghost">Leyenda</button>
+      <button id="btnExport" class="btn ghost">Exportar progreso</button>
+      <button id="btnImport" class="btn ghost">Importar progreso</button>
+      <button id="btnReset" class="btn danger">Reiniciar</button>
+    </div>
+  </header>
+
+  <section class="legend" id="legend" hidden>
+    <div class="legend-item"><span class="pill aprobado">Aprobado</span> Marcado, color sólido y texto tachado.</div>
+    <div class="legend-item"><span class="pill disponible">Disponible</span> Se puede aprobar (prerrequisitos cumplidos o no tiene).</div>
+    <div class="legend-item"><span class="pill bloqueado">Bloqueado</span> Falta(n) prerrequisito(s); al hacer clic se muestra el detalle.</div>
+  </section>
+
+  <main id="grid" class="grid" aria-live="polite"></main>
+
+  <div id="toast" class="toast" role="alert" aria-live="assertive"></div>
+
+  <dialog id="importDialog">
+    <form method="dialog" class="dialog-card">
+      <h3>Importar progreso</h3>
+      <p>Pega aquí el código de exportación para cargar tu avance en otro navegador/equipo.</p>
+      <textarea id="importText" rows="6" placeholder="Pega aquí el JSON…"></textarea>
+      <div class="dialog-actions">
+        <button class="btn ghost" value="cancel">Cancelar</button>
+        <button class="btn" id="confirmImport" value="default">Importar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
 
