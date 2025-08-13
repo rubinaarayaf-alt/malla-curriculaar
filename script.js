@@ -2,13 +2,6 @@
 const STORAGE_KEY = "mallaAprobados_v1";
 
 // ====== Datos de la malla (desde tu documento) ======
-// Notas de calidad de datos:
-// - Para 21035 (Biología de la Célula) el documento lista "24023" como prerrequisito,
-//   que no aparece en la malla. Interpreto que debía decir "21023 Biología General".
-//   -> Ajuste aplicado: 21035 requiere 21023.
-// - Para 24101 (Práctica profesional) el documento indica "9º nivel".
-//   -> Implementado como requisito: haber aprobado TODO hasta 9º nivel.
-// Fuente: documento OFER.docx provisto por la usuaria.
 const MALLA = [
   {
     nivel: 1,
@@ -39,7 +32,7 @@ const MALLA = [
       { code: "30032", name: "Psicología del Aprendizaje y del Desarrollo", prereq: [] },
       { code: "24033", name: "Química del Carbono I", prereq: ["24015","24013"] },
       { code: "24034", name: "Química Inorgánica Estructural", prereq: ["24022"] },
-      { code: "21035", name: "Biología de la Célula", prereq: ["21023"] }, // ajuste explicado arriba
+      { code: "21035", name: "Biología de la Célula", prereq: ["21023"] }, // Corregido
       { code: "43036", name: "Comprensión Lectora en Inglés", prereq: [] },
     ]
   },
@@ -118,7 +111,7 @@ const MALLA = [
 
 // ====== Estado ======
 const aprobados = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"));
-const courseIndex = new Map(); // code -> {curso, nivel}
+const courseIndex = new Map();
 
 // ====== Render ======
 const grid = document.getElementById("grid");
@@ -126,7 +119,6 @@ function render(){
   grid.innerHTML = "";
   courseIndex.clear();
 
-  // Mapear para búsquedas de nombre
   const allCourses = MALLA.flatMap(s => s.cursos);
   const nameByCode = new Map(allCourses.map(c => [c.code, c.name]));
 
@@ -190,7 +182,6 @@ function renderBadges(prereq, nameByCode){
 function cumpleRequisitos(cur){
   for(const p of cur.prereq || []){
     if(typeof p === "object" && p.type === "levelComplete"){
-      // Requiere todos los cursos hasta cierto nivel
       for(const sem of MALLA){
         if(sem.nivel <= p.level){
           for(const c of sem.cursos){
@@ -209,7 +200,6 @@ function faltantes(cur){
   const falt = [];
   for(const p of cur.prereq || []){
     if(typeof p === "object" && p.type === "levelComplete"){
-      // listar faltantes de niveles
       for(const sem of MALLA){
         if(sem.nivel <= p.level){
           for(const c of sem.cursos){
@@ -224,7 +214,6 @@ function faltantes(cur){
       }
     }
   }
-  // Quitar duplicados si coincidieran
   return [...new Set(falt)];
 }
 
@@ -248,7 +237,6 @@ function updateStatuses(){
       card.title = "Disponible para aprobar";
     }
 
-    // Lock icon visual
     const hasLock = !!card.querySelector(".lock");
     if(!can && !hasLock){
       const lock = document.createElement("span");
@@ -269,14 +257,12 @@ grid.addEventListener("click", (e) => {
   const { curso } = courseIndex.get(code);
 
   if(aprobados.has(code)){
-    // Permitir desmarcar siempre
     aprobados.delete(code);
     persist();
     updateStatuses();
     return;
   }
 
-  // Intento de marcar como aprobado
   if(!cumpleRequisitos(curso)){
     const lista = faltantes(curso);
     toast(`No puedes aprobar <strong>${curso.name}</strong> aún. Falta aprobar:`, lista);
@@ -326,7 +312,6 @@ document.getElementById("btnExport").addEventListener("click", () => {
   navigator.clipboard.writeText(text).then(()=>{
     toast("Progreso exportado. Pegado en tu portapapeles.");
   }).catch(()=>{
-    // Fallback: mostrar texto en diálogo
     openImport(text, "Copia el siguiente texto para guardar tu progreso:");
   });
 });
