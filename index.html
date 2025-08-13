@@ -11,32 +11,28 @@
 </head>
 <body>
   <header class="topbar">
-    <div class="brand">
-      <svg viewBox="0 0 24 24" aria-hidden="true" class="logo"><path d="M12 2l7 4v12l-7 4-7-4V6l7-4zm0 2.3L7 6.3v7.4l5 2.9 5-2.9V6.3l-5-2z"></path></svg>
-      <h1>Malla Curricular – Pedagogía en Química y Cs. Naturales</h1>
-    </div>
+    <h1>🌸 Malla Curricular – Pedagogía en Química y Cs. Naturales 🌸</h1>
     <div class="actions">
       <button id="btnLegend" class="btn ghost">Leyenda</button>
-      <button id="btnExport" class="btn ghost">Exportar progreso</button>
-      <button id="btnImport" class="btn ghost">Importar progreso</button>
+      <button id="btnExport" class="btn ghost">Exportar</button>
+      <button id="btnImport" class="btn ghost">Importar</button>
       <button id="btnReset" class="btn danger">Reiniciar</button>
     </div>
   </header>
 
   <section class="legend" id="legend" hidden>
-    <div class="legend-item"><span class="pill aprobado">Aprobado</span> Marcado, color sólido y texto tachado.</div>
-    <div class="legend-item"><span class="pill disponible">Disponible</span> Se puede aprobar (prerrequisitos cumplidos o no tiene).</div>
-    <div class="legend-item"><span class="pill bloqueado">Bloqueado</span> Falta(n) prerrequisito(s); al hacer clic se muestra el detalle.</div>
+    <div class="legend-item"><span class="pill aprobado">Aprobado</span> Marcado y tachado.</div>
+    <div class="legend-item"><span class="pill disponible">Disponible</span> Se puede aprobar.</div>
+    <div class="legend-item"><span class="pill bloqueado">Bloqueado</span> Faltan prerrequisitos.</div>
   </section>
 
-  <main id="grid" class="grid" aria-live="polite"></main>
+  <main id="grid" class="grid"></main>
 
-  <div id="toast" class="toast" role="alert" aria-live="assertive"></div>
+  <div id="toast" class="toast"></div>
 
   <dialog id="importDialog">
     <form method="dialog" class="dialog-card">
       <h3>Importar progreso</h3>
-      <p>Pega aquí el código de exportación para cargar tu avance en otro navegador/equipo.</p>
       <textarea id="importText" rows="6" placeholder="Pega aquí el JSON…"></textarea>
       <div class="dialog-actions">
         <button class="btn ghost" value="cancel">Cancelar</button>
@@ -48,4 +44,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
